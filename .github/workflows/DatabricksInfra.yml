@@ -30,7 +30,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./Terraform
+        working-directory: ./IaC
 
     steps:
     # Checkout the repository to the GitHub Actions runner
