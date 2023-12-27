@@ -3,13 +3,13 @@ name: 'Terraform'
 on:
   push:
     branches:
-      - InfraDbx
+      - Master
     paths:
       - IaC/**
       - .github/workflows/DatabricksInfra.yml
   pull_request:
     branches:
-      - InfraDbx
+      - Master
     paths:
       - IaC/**
       - .github/workflows/DatabricksInfra.yml
