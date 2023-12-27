@@ -21,7 +21,7 @@ module "examples_adb-lakehouse" {
   access_connector_name           = "TjxmUnity_Connector"
   databricks_workspace_name       = "TjxmDWS"
   data_factory_name               = "MenAnalyticsADF"
-  environment_name                = "Env01"
+  environment_name                = "env01"
   key_vault_name                  = "TjxmUnityVault"
   location                        = "eastus"
   managed_resource_group_name     = "TjxmAnalyticsMgr-RG"
