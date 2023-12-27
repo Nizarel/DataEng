@@ -5,7 +5,7 @@ on:
     branches:
       - InfraDbx
     paths:
-      - Iac/**
+      - IaC/**
       - .github/workflows/DatabricksInfra.yml
   pull_request:
     branches:
