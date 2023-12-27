@@ -3,21 +3,18 @@ name: 'Terraform'
 on:
   push:
     branches:
-      - Master
+      - master
     paths:
       - IaC/**
       - .github/workflows/DatabricksInfra.yml
   pull_request:
     branches:
-      - Master
+      - master
     paths:
       - IaC/**
       - .github/workflows/DatabricksInfra.yml
   workflow_dispatch:
   
-permissions:
-  contents: read
-
 jobs:
   terraform:
     name: 'Terraform'
