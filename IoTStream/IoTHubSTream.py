@@ -46,7 +46,9 @@ from pyspark.sql import functions as F
 from pyspark.sql.types import StructType, StructField, StringType, LongType, FloatType, BooleanType
 
 class WacomosVehiculeStream:
+
     def __init__(self, eh_name, connection_string):
+        
         self.eh_conf = {
             'eventhubs.connectionString': sc._jvm.org.apache.spark.eventhubs.EventHubsUtils.encrypt(connection_string),
             'ehName': eh_name
@@ -85,12 +87,13 @@ class WacomosVehiculeStream:
     def StageRawStream(self, VehRawDF):
         return (VehRawDF.withColumn("DeviceID", expr("ident"))
                         .withColumn('Position', struct(lit('Point').alias('type'), array(col('`position.longitude`'), col('`position.latitude`')).alias('coordinates')))
-                        .withColumn("timestam", expr("timestam"))
+                        .withColumn("timestamp", expr("timestamp"))
                 )
 
     def start(self):
         if not self.dataframe:
             self.dataframe = self.ReadVehRawStream ()
+
     
     def stop(self):
         for query in spark.streams.active:
@@ -105,16 +108,29 @@ class WacomosVehiculeStream:
 
 # COMMAND ----------
 
-# Instantiate EventHubStream object
+
+spark.conf.set("fs.azure.account.key.dlstjxmastorage02env01.dfs.core.windows.net", dbutils.secrets.get(scope="tjx", key="IoTCon"))
+
+        
+        
+
+# Instantiate WacomosVehiculeStream object
 eh_name = "tjxrm"
-connection_string = "Endpoint=sb://iothub-ns-tjxrm-25438612-f8fb4cd2a3.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=1XFYLAdzaHII+Q/aEoMqAnzKhIUFT7I1gAIoTEMFnGw=;EntityPath=tjxrm"
+connection_string = dbutils.secrets.get(scope="tjx", key="IoTCon")
 my_event_hub_stream = WacomosVehiculeStream(eh_name, connection_string)
 
-# Start the stream
+# Start the Raw stream
 my_event_hub_stream.start()
 
-# Display resulting dataframe
+# Stage raw DataFrame
+raw_df = my_event_hub_stream.dataframe
+df_staged= my_event_hub_stream.StageRawStream(raw_df)
+
+# Display Staged dataframe
 my_event_hub_stream.display_dataframe()
 
+
+
 # Stop the stream
-# my_event_hub_stream.stop()
+#my_event_hub_stream.stop()
+
