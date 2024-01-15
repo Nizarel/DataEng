@@ -22,7 +22,7 @@
 #   StructField("din.3", BooleanType())
 #   ])
 
-# IOT_CS = "Endpoint=sb://iothub-ns-tjxrm-25438612-f8fb4cd2a3.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=1XFYLAdzaHII+Q/aEoMqAnzKhIUFT7I1gAIoTEMFnGw=;EntityPath=tjxrm" # dbutils.secrets.get('iot','iothub-cs') # IoT Hub connection string (Event Hub Compatible)
+# IOT_CS = "" # dbutils.secrets.get('iot','iothub-cs') # IoT Hub connection string (Event Hub Compatible)
 # ehConf = { 
 #   'eventhubs.connectionString':sc._jvm.org.apache.spark.eventhubs.EventHubsUtils.encrypt(IOT_CS),
 #   'ehName':dbutils.widgets.get("tjxrm")
