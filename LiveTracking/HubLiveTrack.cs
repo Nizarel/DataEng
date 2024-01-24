@@ -13,7 +13,13 @@ namespace LiveTracking
     public static class HubLiveTrack
     {
         [FunctionName("HubLiveTrack")]
-        public static async Task Run([EventHubTrigger("wbc", ConsumerGroup = "sink2", Connection = "HubConstr")] EventData[] events, ILogger log)
+        public static async Task Run(
+            [EventHubTrigger("wbc", ConsumerGroup = "sink2", Connection = "HubConstr")] EventData[] events,
+            [CosmosDB(
+                databaseName: "tracking-db",
+                containerName: "eventrack",
+                Connection = "CosmosDBConn")] IAsyncCollector<EventData> outputItems,
+            ILogger log)
         {
             var exceptions = new List<Exception>();
 
@@ -21,19 +27,16 @@ namespace LiveTracking
             {
                 try
                 {
-                    // Replace these two lines with your processing logic.
-                    log.LogInformation($"C# Event Hub trigger function processed a message: {eventData.EventBody}");
-                    await Task.Yield();
+                    log.LogInformation($"Event Hub trigger function processed a message: {eventData.EventBody}");
+
+                    // Add the event data to the Cosmos DB output
+                    await outputItems.AddAsync(eventData);
                 }
                 catch (Exception e)
                 {
-                    // We need to keep processing the rest of the batch - capture this exception and continue.
-                    // Also, consider capturing details of the message that failed processing so it can be processed again later.
                     exceptions.Add(e);
                 }
             }
-
-            // Once processing of the batch is complete, if any messages in the batch failed processing throw an exception so that there is a record of the failure.
 
             if (exceptions.Count > 1)
                 throw new AggregateException(exceptions);
