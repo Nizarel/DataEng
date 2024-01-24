@@ -7,12 +7,13 @@ using Azure.Messaging.EventHubs;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 
-namespace HubTracking.Vehicules
+//namespace Tracking.Vehicules
+namespace LiveTracking
 {
     public static class HubLiveTrack
     {
         [FunctionName("HubLiveTrack")]
-        public static async Task Run([EventHubTrigger("wbc", Connection = "HubConstr")] EventData[] events, ILogger log)
+        public static async Task Run([EventHubTrigger("wbc", ConsumerGroup = "sink2", Connection = "HubConstr")] EventData[] events, ILogger log)
         {
             var exceptions = new List<Exception>();
 
