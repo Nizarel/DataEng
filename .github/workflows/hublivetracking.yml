@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - LiveTracking
+    paths:
+      - 'LiveTracking/**'
+      - '.github/workflows/hublivetracking.yml'
   workflow_dispatch:
 
 env:
