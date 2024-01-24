@@ -6,7 +6,7 @@ name: Build and deploy dotnet core project to Azure Function App - HubLiveTracki
 on:
   push:
     branches:
-      - master
+      - LiveTracking
     paths:
       - 'LiveTracking/**'
       - '.github/workflows/hublivetracking.yml'
