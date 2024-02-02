@@ -263,6 +263,19 @@ silver = WMSLiveTrackingSilver()
 
 ###############################################################################
 
+bronzedf = bronze.ReadVehRawStream()
+
+bronzedf.display()
+
+# COMMAND ----------
+
+eh_name = "tjxrm"
+connection_string = dbutils.secrets.get(scope="tjx", key="IoTCon")
+bronze = WMSLiveTrackingBronze(eh_name, connection_string)
+silver = WMSLiveTrackingSilver()
+
+###############################################################################
+
 df = bronze.ReadVehRawStream()
 df2 = bronze.StageRawStream(df)
 VehiculeCircuitViewDF = silver.ReadRefrWCM("dbo.Vw_VehiculeCircuitInfos")

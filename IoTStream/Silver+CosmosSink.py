@@ -32,7 +32,7 @@ from pyspark.sql.functions import explode, split, from_json, col, struct, create
 from pyspark.sql import functions as F
 from pyspark.sql.types import StructType, StructField, StringType, LongType, FloatType, BooleanType
 
-class WMSLiveTracking:
+class WMSLiveTrackingBronze:
     def __init__(self, eh_name, connection_string):
         self.base_data_dir = "/FileStore/wcm_streaming"
         self.eh_conf = {
@@ -66,8 +66,8 @@ class WMSLiveTracking:
             .format("eventhubs") \
             .options(**self.eh_conf) \
             .load() \
-            .withColumn('reading', from_json(col('body').cast('string'), self.getSchema())) \
-            .select('reading.*')           
+            .withColumn('reading', from_json(col('body').cast('string'), self.getSchema())) #\
+            #.select('reading.*')           
          )
 
     def StageRawStream(self, VehRawDF):
@@ -157,6 +157,18 @@ class WMSLiveTracking:
         sQuery = self.appendInvoices(canbustageDF)
         print("Done\n")
         return sQuery    
+
+# COMMAND ----------
+
+eh_name = "tjxrm"
+connection_string = dbutils.secrets.get(scope="tjx", key="IoTCon")
+bronzeTracking = WMSLiveTrackingBronze(eh_name, connection_string)
+bronzeDF = bronzeTracking.ReadVehRawStream()
+bronzeDF.display()
+
+# COMMAND ----------
+
+
 
 # COMMAND ----------
 

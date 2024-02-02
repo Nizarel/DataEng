@@ -90,6 +90,14 @@ class WMSLiveTrackingBronze:
 
 # COMMAND ----------
 
+eh_name = "tjxrm"
+connection_string = dbutils.secrets.get(scope="tjx", key="IoTCon")
+bronzeTracking = WMSLiveTrackingBronze(eh_name)
+
+
+
+# COMMAND ----------
+
 class WMSLiveTrackingSilver:
     def __init__(self, connection_string):
         self.base_data_dir = "/FileStore/wcm_streaming"
@@ -193,6 +201,10 @@ class WMSLiveTrackingSilver:
         #sQuery = self.appendSilverStream(SilverStreamDF)
         #print("Done\n")
         return dfm
+
+# COMMAND ----------
+
+
 
 # COMMAND ----------
 
