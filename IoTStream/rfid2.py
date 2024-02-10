@@ -1,6 +1,5 @@
 # Databricks notebook source
 
-
 spark.sql("drop table if exists RfidBronze")
 
 
